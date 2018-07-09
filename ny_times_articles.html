@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>New York Times News Update</title>
+	
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    
+  <div class = "container">
+<div class="mypanel"></div>
+  <div class="table-responsive">
+  <table class="table table-bordered table-striped" id="news_table">
+	<tr> 
+        <td> News Title</td>
+ 	<td> URL</td>
+        <td> Date Published</td>
+        </tr>
+    </table>    
+
+   </div>
+<div class="copyright"></div>
+  </div>	
+
+    <script>
+    $.getJSON('http://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/1.json?api-key=35c6ecd6639b487084deac95f88663cf', function(data) {
+        
+       
+	  var status= `${data.status}` 
+	  var copyright= `${data.copyright}` 
+  var num_results = `${data.num_results}`
+  var title = 'New York Times News Update'  ;
+  var news_data= '';
+ 
+  var results = `${data.results}` ;
+
+   
+ $(data.results).each(function(){
+           
+        news_data += '<tr>';
+  	news_data += '<td>'  + this.title +'</td>';
+        news_data += '<td>'  + "<a href='" + this.url +  "'  target='_blank'>"  +  this.url + '</a> </td>';
+       news_data += '<td>'  +this.published_date +'</td>';
+       news_data += '</tr>';
+       });
+	
+$('#news_table').append(news_data);
+
+    
+	  //var text = status + copyright + num_results + '<br>' +title 
+	
+                    
+        
+        $(".mypanel").html(title);
+ $(".copyright").html(copyright);
+    });
+    </script>
+    
+</body>
+</html>
